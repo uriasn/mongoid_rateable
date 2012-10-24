@@ -7,9 +7,6 @@ require "rubygems"
 require "mongoid"
 require "mongoid_rateable"
 require "database_cleaner"
-require "simplecov"
-
-SimpleCov.start
 
 Dir["#{MODELS}/*.rb"].each { |f| require f }
 

@@ -18,9 +18,9 @@ module Mongoid
 
 			scope :unrated, where(:rating.exists => false)
 			scope :rated, where(:rating.exists => true)
-			scope :rated_by, ->(rater) { where("rating_marks.rater_id" => rater.id, "rating_marks.rater_class" => rater.class.to_s) }
-			scope :with_rating, ->(range) { where(:rating.gte => range.begin, :rating.lte => range.end) }
- 			scope :highest_rated, ->(limit=10) { order_by([:rating, :desc]).limit(limit) }
+			scope :rated_by, lambda { |rater| where("rating_marks.rater_id" => rater.id, "rating_marks.rater_class" => rater.class.to_s) }
+			scope :with_rating, lambda { |range| where(:rating.gte => range.begin, :rating.lte => range.end) }
+ 			scope :highest_rated, lambda { |*args| limit = args.first || 10; order_by([:rating, :desc]).limit(limit) }
 		end
 
 		def rate(mark, rater, weight = 1)
